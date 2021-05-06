@@ -5,17 +5,15 @@ import threading
 import time
 
 start_time = time.time()
-currently_scraping_index = 1
 
 joblist = []
 
 
-def do_the_thing(how_many_page):
-    # for i in range(1, how_many_page):
-    soup = BeautifulSoup(requests.get(f'https://www.freelancer.com/jobs/{how_many_page}/?keyword=web%20scraping').text, 'lxml')
+def do_the_thing(page_index):
+    soup = BeautifulSoup(requests.get(f'https://www.freelancer.com/jobs/{page_index}/?keyword=web%20scraping').text, 'lxml')
     all_jobs = soup.find_all('div', class_='JobSearchCard-primary')
 
-    print(f'doing page {how_many_page}')
+    print(f'scraping page {page_index}')
 
     for m in all_jobs:
         data = {
@@ -35,7 +33,7 @@ df = pd.DataFrame(joblist)
 df.to_csv('jobs.csv')
 print(df.head())
 
-print(f'this program took {time.time() - start_time}s to run {currently_scraping_index}')
+print(f'this program took {time.time() - start_time}s to run ')
 
 # do_the_thing(10)
 
